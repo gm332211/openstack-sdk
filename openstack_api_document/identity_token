@@ -1,0 +1,184 @@
+POST /v3/auth/tokens
+    query
+        nocatalog 关闭catalog显示默认自带catalog列表
+    body
+        domain:指定域名
+        name:认证中的名称(包括domain,user,project)
+        password:指定认证密码
+        id:认证中的id(包括domain,user,project)
+        methods:认证方式
+        scope:授权范围
+1.没有指定范围的授权
+    Example
+        {"auth": {
+                "identity": {
+                    "methods": [
+                        "password"
+                    ],
+                    "password": {
+                        "user": {
+                            "name": "admin",
+                            "domain": {
+                                "name": "Default"
+                            },
+                            "password": "devstacker"
+                        }
+                    }
+                }
+        }}
+2.项目、域或系统的范围授权
+    Example
+        {"auth": {
+            "identity": {
+                "methods": [
+                    "password"
+                ],
+                "password": {
+                    "user": {
+                        "id": "ee4dfb6e5540447cb3741905149d9b6e",
+                        "password": "devstacker"
+                    }
+                }
+            },
+            "scope": {
+                "system": {
+                    "all": true
+                }
+            }
+        }}
+3.为限定范围授权
+    Example
+        {"auth": {
+                "identity": {
+                    "methods": [
+                        "password"
+                    ],
+                    "password": {
+                        "user": {
+                            "id": "ee4dfb6e5540447cb3741905149d9b6e",
+                            "password": "devstacker"
+                        }
+                    }
+                },
+                "scope": "unscoped"
+         }}
+4.验证令牌(无范围验证)
+    Example
+        {"auth": {
+                "identity": {
+                    "methods": [
+                        "token"
+                    ],
+                    "token": {
+                        "id": "'$OS_TOKEN'"
+                    }
+                }
+            }}
+5.有限定的项目、域或系统的范围令牌验证
+    System-Scoped Example
+        {"auth": {
+                "identity": {
+                    "methods": [
+                        "token"
+                    ],
+                    "token": {
+                        "id": "'$OS_TOKEN'"
+                    }
+                },
+                "scope": {
+                    "system": {
+                        "all": true
+                    }
+                }
+            }}
+    Domain-Scoped with Domain ID Example
+        "scope": {
+            "domain": {
+                "id": "default"
+            }
+        }
+    Domain Name
+        "scope": {
+            "domain": {
+                "name": "default"
+            }
+        }
+    Project ID
+        "scope": {
+            "project": {
+                "id": "a6944d763bf64ee6a275f1263fae0352"
+            }
+        }
+    Project Name
+        "scope": {
+            "project": {
+                "domain": {
+                    "id": "default"
+                },
+                "name": "admin"
+            }
+        }
+6.为范围认证
+    {"auth": {
+            "identity": {
+                "methods": [
+                    "token"
+                ],
+                "token": {
+                    "id": "'$OS_TOKEN'"
+                }
+            },
+            "scope": "unscoped"
+     }}
+7.令牌验证令牌
+GET /v3/auth/tokens
+    header
+        X-Auth-Token:授权令牌
+        X-Subject-Token:被验证令牌
+    query
+        nocatalog:隐藏catalog,默认显示
+        allow_expired:允许过期令牌认证,默认不可以过期返回(404)
+HEAD /v3/auth/tokens
+    header
+        X-Auth-Token:授权令牌
+        X-Subject-Token:被验证令牌
+    query
+        allow_expired:允许过期令牌认证,默认不可以过期返回(404)
+    不返回内容只返回成功状态码(200)
+7.删除令牌
+DELETE /v3/auth/tokens
+    header
+        X-Auth-Token:授权令牌
+        X-Subject-Token:被验证令牌
+    不返回内容只返回成功状态码(200)
+8.获取服务api列表
+GET /v3/auth/catalog
+    header
+        X-Auth-Token:授权令牌
+    response
+        endpoints:返回节点api
+        type:类型
+        name:名称
+9.获取认证的令牌所有的项目
+GET /v3/auth/projects
+    header
+        X-Auth-Token:授权令牌
+    response
+        domain_id:域的id
+        enabled:项目状态
+        name:名称
+9.获取认证的令牌所有的域
+GET /v3/auth/domains
+    header
+        X-Auth-Token:授权令牌
+    response
+        id:域的id
+        description:描述
+        enabled:域状态
+        name:名称
+9.获取认证的令牌所有的系统
+GET /v3/auth/system
+    header
+        X-Auth-Token:授权令牌
+    response
+        system:分配的系统列表
