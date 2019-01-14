@@ -1,0 +1,37 @@
+获取域
+GET /v3/domains
+    query
+        name:名称过滤
+        enabled:开启状态过滤
+创建域
+POST /v3/domains
+    body
+        name:名称
+        enabled:开启状态(默认开启)
+        description:域描述
+    Example
+        {"domain": {
+            "description": "Domain description",
+            "enabled": true,
+            "name": "myDomain"
+        }}
+获取单个域
+GET /v3/domains/{domain_id}
+    path
+        domain_id:域id
+更新域
+PATCH /v3/domains/{domain_id}
+    path
+        domain_id:域id
+    body
+        name:名称
+        enabled:开启状态(默认开启)
+        description:域描述
+    Example(更新描述)
+        {"domain": {
+        "description": "Owns users and projects on Identity API v2."
+        }}
+删除域
+DELETE /v3/domains/{domain_id}
+    path
+        domain_id:域id

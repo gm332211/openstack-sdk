@@ -1,0 +1,73 @@
+获取应用凭证
+POST /v3/auth/tokens
+    query
+        nocatalog 关闭catalog显示默认自带catalog列表
+    body
+        application_credential:应用凭证对象
+        name:凭证名称
+        id:凭证id
+        secret:加密
+        user:如果使用name名称凭证需要user字段
+1.没有指定范围的授权
+    Example
+    {"auth": {
+        "identity": {
+            "methods": [
+                "application_credential"
+            ],
+            "application_credential": {
+                "id": "423f19a4ac1e4f48bbb4180756e6eb6c",
+                "secret": "rEaqvJka48mpv"
+            }
+        }
+    }}
+    {"auth": {
+        "identity": {
+            "methods": [
+                "application_credential"
+            ],
+            "application_credential": {
+                "name": "monitoring",
+                "secret": "rEaqvJka48mpv",
+                "user": {
+                    "id": "423f19a4ac1e4f48bbb4180756e6eb6c"
+                }
+            }
+        }
+    }}
+创建应用凭证
+POST /v3/users/{user_id}/application_credentials
+    path
+        user_id:凭证用户id
+    body
+        application_credential:凭证对象
+        name:凭证名称
+        description:凭证描述
+        expires_at:凭证创建时间
+        roles:凭证权限
+        unrestricted:操作其他凭证的权限如(创建其他凭证)
+    Example
+        {"application_credential": {
+            "name": "monitoring",
+            "secret": "rEaqvJka48mpv",
+            "description": "Application credential for monitoring.",
+            "expires_at": "2018-02-27T18:30:59Z",
+            "roles": [
+                {"name": "Reader"}
+            ],
+            "unrestricted": false
+        }}
+列出用户凭证列表
+GET /v3/users/{user_id}/application_credentials
+    path
+        user_id:凭证用户id
+获取单个凭证
+GET /v3/users/{user_id}/application_credentials/{application_credential_id}
+    path
+        user_id:凭证用户id
+        application_credential_id:凭证id
+删除单个凭证id
+DELETE /v3/users/{user_id}/application_credentials/{application_credential_id}
+    path
+        user_id:凭证用户id
+        application_credential_id:凭证id
