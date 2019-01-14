@@ -1,0 +1,58 @@
+获取组列表
+GET /v3/groups
+    query
+        name:按照名称筛选
+        domain_id:按照域id筛选
+创建组
+POST /v3/groups
+    body
+        group:组对象
+        name:名称
+        description:描述
+        domain_id:所属域
+    Example
+        {"group": {
+            "description": "Contract developers",
+            "domain_id": "default",
+            "name": "Contract developers"
+        }}
+获取单个组
+GET /v3/groups/{group_id}
+    path
+        group_id:组id
+
+更新组
+PATCH /v3/groups/{group_id}
+    path
+        group_id:组id
+    body
+        group:组对象
+        name:名称
+        description:描述
+        domain_id:所属域
+删除组
+DELETE /v3/groups/{group_id}
+    path
+        group_id:组id
+获取组下所有用户
+GET /v3/groups/{group_id}/users
+    path
+        group_id:组id
+    query
+        password_expires_at:用户密码过期时间筛选
+添加用户到组内
+PUT /v3/groups/{group_id}/users/{user_id}
+    path
+        group_id:组id
+        user_id:用户id
+检查用户是否在组内
+HEAD /v3/groups/{group_id}/users/{user_id}
+    path
+        group_id:组id
+        user_id:用户id
+删除组里的用户
+DELETE /v3/groups/{group_id}/users/{user_id}
+    path
+        group_id:组id
+        user_id:用户id
+

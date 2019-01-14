@@ -1,0 +1,33 @@
+分配域上用户角色权限
+PUT /v3/OS-INHERIT/domains/{domain_id}/users/{user_id}/roles/{role_id}/inherited_to_projects
+    path
+        domain_id:域id
+        user_id:用户id
+        role_id:角色id
+分配域上组角色权限
+PUT /v3/OS-INHERIT/domains/{domain_id}/groups/{group_id}/roles/{role_id}/inherited_to_projects
+    path
+        domain_id:域id
+        group_id:用户id
+        role_id:角色id
+获取域上用户所有的角色权限
+GET /v3/OS-INHERIT/domains/{domain_id}/users/{user_id}/roles/inherited_to_projects
+    path
+        domain_id:域id
+        user_id:用户id
+获取域上组所有的角色权限
+GET /v3/OS-INHERIT/domains/{domain_id}/groups/{group_id}/roles/inherited_to_projects
+    path
+        domain_id:域id
+        group_id:组id
+验证域上的用户角色权限
+HEAD /v3/OS-INHERIT/domains/{domain_id}/users/{user_id}/roles/{role_id}/inherited_to_projects
+    path
+        domain_id:域id
+        user_id:用户id
+        role_id:角色id
+HEAD /v3/OS-INHERIT/domains/{domain_id}/groups/{group_id}/roles/{role_id}/inherited_to_projects
+    path
+        domain_id:域id
+        group_id:组id
+        role_id:角色id
