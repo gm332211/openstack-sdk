@@ -1,0 +1,37 @@
+获取api端点
+GET /v3/endpoints
+    query
+        interface:接口类型筛选
+        service_id:服务id筛选
+创建api端点
+POST /v3/endpoints
+    body
+        endpoint:端点对象
+        url:访问url
+        enabled:是否开启
+        interface:接口类型
+        service_id:服务id
+        region_id:区域id
+    Example
+        {"endpoint": {
+        "interface": "public",
+        "region_id": "RegionOne",
+        "url": "http://example.com/identity/v3/endpoints/828384",
+        "service_id": "9242e05f0c23467bbd1cf1f7a6e5e596"}}
+获取单个端点
+GET /v3/endpoints/{endpoint_id}
+    path
+        endpoint_id:端点id
+更新端点
+PATCH /v3/endpoints/{endpoint_id}
+    path
+        endpoint_id:端点id
+    body
+        endpoint:端点对象
+        url:访问url
+        enabled:是否开启
+        interface:接口类型
+        service_id:服务id
+        region_id:区域id
+删除端点
+DELETE /v3/endpoints/{endpoint_id}

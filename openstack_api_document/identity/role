@@ -1,0 +1,102 @@
+给用户分配角色
+PUT /v3/projects/{project_id}/users/{user_id}/roles/{role_id}
+列出指定角色分配
+GET /role_assignments?user.id={user_id}
+列出项目角色分配
+GET /role_assignments?scope.project.id={project_id}
+列出特定用户的系统角色分配
+GET /role_assignments?scope.system=all?user.id={user_id}
+列出所有的系统角色分配
+GET /role_assignments?scope.system=all
+指定子项目下用户的角色分配
+GET /role_assignments?scope.project.id={project_id}&include_subtree=true
+具体确定用户可以执行的操作权限
+GET /role_assignments?user.id={user_id}&effective
+项目范围用户的操作权限
+GET /role_assignments?user.id={user_id}&scope.project.id={project_id}&effective
+列出角色分配包括名称
+GET /role_assignments?include_names
+列出所有的角色
+GET /v3/roles
+    query
+        name:名称筛选
+        domain_id:域id筛选
+创建角色
+POST /v3/roles
+    body
+        role:角色对象
+        name:名称
+        domain_id:域id
+        description:描述
+    Example
+        {"role": {
+        "description": "My new role",
+        "name": "developer"}}
+获取单个角色
+GET /v3/roles/{role_id}
+    path
+        role_id:角色id
+更新角色
+PATCH /v3/roles/{role_id}
+    path
+        role_id:角色id
+    body
+        role:角色对象
+        name:名称
+        description:描述
+    Example
+        {"role": {
+            "description": "My new role",
+            "name": "Developer"}}
+删除角色
+DELETE /v3/roles/{role_id}
+    path
+        role_id:角色id
+域上组的角色分配
+    /v3/domains/{domain_id}/groups/{group_id}/roles
+        GET 查看
+    /v3/domains/{domain_id}/groups/{group_id}/roles/{role_id}
+        PUT 添加
+        HEAD 验证
+        DELETE 删除
+域上用户角色分配操作
+    /v3/domains/{domain_id}/users/{user_id}/roles
+        GET 查看
+    /v3/domains/{domain_id}/users/{user_id}/roles/{role_id}
+        PUT 添加
+        HEAD 验证
+        DELETE 删除
+项目上组的角色分配
+    /v3/projects/{project_id}/groups/{group_id}/roles
+        GET 查看
+    /v3/projects/{project_id}/groups/{group_id}/roles/{role_id}
+        PUT 添加
+        HEAD 验证
+        DELETE 删除
+项目上用户的角色分配
+    /v3/projects/{project_id}/users/{user_id}/roles
+        GET 查看
+    /v3/projects/{project_id}/users/{user_id}/roles/{role_id}
+        PUT 添加
+        HEAD 验证
+        DELETE 删除
+角色隐藏角色
+    /v3/roles/{prior_role_id}/implies
+        GET 查看
+    /v3/roles/{prior_role_id}/implies/{implies_role_id}
+        PUT 添加
+        HEAD 验证
+        DELETE 删除
+角色分配列表
+GET /v3/role_assignments
+    query
+        effective:返回有效的分配
+        include_names:返回名称和id
+        group.id:组id筛选
+        role.id:角色id筛选
+        scope.system:系统筛选
+        scope.domain.id:域id筛选
+        scope.project.id:项目筛选
+        user.id:用户id筛选
+列出角色所有推理
+GET /v3/role_inferences

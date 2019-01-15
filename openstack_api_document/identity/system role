@@ -1,0 +1,14 @@
+系统用户角色
+    /v3/system/users/{user_id}/roles
+        GET查看
+    /v3/system/users/{user_id}/roles/{role_id}
+        PUT 添加
+        HEAD 验证
+        DELETE 删除
+系统组角色
+    /v3/system/groups/{group_id}/roles
+        GET查看
+    /v3/system/groups/{group_id}/roles/{role_id}
+        PUT 添加
+        HEAD 验证
+        DELETE 删除

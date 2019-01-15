@@ -1,0 +1,37 @@
+列出所有区域
+GET /v3/regions
+    query
+        parent_region_id:父区域id筛选
+创建区域
+POST /v3/regions
+    body
+        region:区域对象
+        id:区域id
+        description:区域描述
+        parent_region_id:父区域id
+    Example
+        {"region": {
+        "description": "My subregion",
+        "id": "RegionOneSubRegion",
+        "parent_region_id": "RegionOne"}}
+获取单个区域
+GET /v3/regions/{region_id}
+    path
+        region_id:区域id
+更新区域
+PATCH /v3/regions/{region_id}
+    path
+        region_id:区域id
+    body
+        region:区域对象
+        id:区域id
+        description:区域描述
+        parent_region_id:父区域id
+    Example
+        {"region": {
+            "description": "My subregion 3"
+        }}
+删除区域
+DELETE /v3/regions/{region_id}
+    path
+        region_id:区域id

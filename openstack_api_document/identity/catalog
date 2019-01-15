@@ -1,0 +1,36 @@
+服务列表
+GET /v3/services
+    query
+        type:类型筛选(Example compute, ec2, identity, image, network, or volume.)
+创建服务
+POST /v3/services
+    body
+        service:服务对象
+        name:名称
+        description:描述
+        enabled:是否开启
+        type:类型
+    Example
+        {"service": {
+            "type": "compute",
+            "name": "compute2",
+            "description": "Compute service 2"
+        }}
+获取单个服务
+GET /v3/services/{service_id}
+    path
+        service_id:服务id
+更新服务
+PATCH /v3/services/{service_id}
+    path
+        service_id:服务id
+    body
+        service:服务对象
+        name:名称
+        description:描述
+        enabled:是否开启
+        type:类型
+删除服务
+DELETE /v3/services/{service_id}
+    path
+        service_id:服务id

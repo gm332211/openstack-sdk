@@ -1,0 +1,70 @@
+获取用户列表
+GET /v3/users
+    query
+        domain_id:域id过滤
+        enabled:开启状态过滤
+        idp_id:通过标识提供程序ID筛选
+        name:名称过滤
+        password_expires_at:根据用户密码过期时间筛选
+        protocol_id:通过协议ID筛选
+        unique_id:通过唯一ID筛选
+创建用户
+POST /v3/users
+    body
+        user:用户对象
+        default_project_id:默认项目id
+        domain_id:域id
+        enabled:是否开启
+        name:名称
+        password:密码
+        extra:额外信息(如email)
+        options:用户资源选项(ignore_change_password_upon_first_use, ignore_password_expiry, ignore_lockout_failure_attempts, lock_password, multi_factor_auth_enabled, and multi_factor_auth_rules.)
+    Example
+        {"user": {
+        "default_project_id": "263fd9",
+        "domain_id": "1789d1",
+        "enabled": true,
+        "name": "James Doe",
+        "password": "secretsecret",
+        "description": "James Doe user",
+        "email": "jdoe@example.com",
+        "options": {
+            "ignore_password_expiry": true
+        }}}
+获取单个用户
+GET /v3/users/{user_id}
+    path
+        user_id:用户id
+更新用户
+PATCH /v3/users/{user_id}
+    path
+        user_id:用户id
+    body
+        user_id,user,default_project_id,domain_id,enabled,name,password,options
+    Example
+        {"user": {
+        "default_project_id": "263fd9",
+        "enabled": true,
+        "options": {
+            "ignore_lockout_failure_attempts": true
+        }}}
+删除用户
+DELETE /v3/users/{user_id}
+    path
+        user_id:用户id
+查看用户所有组
+GET /v3/users/{user_id}/groups
+    path
+        user_id:用户id
+查看用户所有项目
+GET /v3/users/{user_id}/projects
+    path
+        user_id:用户id
+修改用户密码
+POST /v3/users/{user_id}/password
+    path
+        user_id:用户id
+    body
+        user:用户对象
+        original_password:原密码
+        password:新密码

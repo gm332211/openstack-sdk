@@ -1,0 +1,68 @@
+获取项目列表
+GET /v3/projects
+    query
+        domain_id:通过域id筛选
+        enabled:通过状态筛选
+        is_domain:True筛选有作用域的
+        name:通过名称筛选
+        parent_id:通过父类id筛选
+创建项目
+POST /v3/projects
+    body
+        project:项目对象
+        name:名称
+        is_domain:是否开启作用域
+        description:描述
+        domain_id:所属域id
+        enabled:是否开启项目
+        parent_id:父id
+        tags:额外标签信息
+获取单个项目
+GET /v3/projects/{project_id}
+    path
+        project_id:项目id
+    body
+        3.4版本
+            parents_as_list:所有项目父列表
+            subtree_as_list:所有项目子列表
+            parents_as_ids:所有项目父id
+            subtree_as_ids:所有项目子id
+        include_limits
+更新项目
+PATCH /v3/projects/{project_id}
+    path
+        project_id:项目id
+    body
+        project:项目对象
+        name:名称
+        is_domain:是否开启作用域
+        description:描述
+        domain_id:所属域id
+        enabled:是否开启项目
+        tags:额外标签信息
+    Example
+        {"project": {
+        "description": "My updated project",
+        "name": "myUpdatedProject"}}
+删除项目
+DELETE /v3/projects/{project_id}
+    path
+        project_id:项目id
+获取项目标记
+GET /v3/projects/{project_id}/tags
+    path
+        project_id:项目id
+更新项目标记
+PUT /v3/projects/{project_id}/tags
+    path
+        project_id:项目id
+    body
+        tags:标签
+    Example
+        {
+            "tags": ["foo", "bar"]
+        }
+删除标签
+DELETE /v3/projects/{project_id}/tags
+    path
+        project_id:项目id

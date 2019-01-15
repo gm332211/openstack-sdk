@@ -1,0 +1,12 @@
+返回标记是foo的项目
+GET /v3/projects?tags=foo
+返回标记是foo的项目和bar的项目
+GET /v3/projects?tags=foo,bar
+返回标记是foo或者bar的项目
+GET /v3/projects?tags-any=foo,bar
+返回标记不是foo的项目和bar的项目
+GET /v3/projects?not-tags=foo,bar
+返回标记不是foo的项目或者不是bar的项目
+GET /v3/projects?not-tags-any=foo,bar
+组合搜索
+GET /v3/projects?tags=foo,bar&tags-any=red,blue

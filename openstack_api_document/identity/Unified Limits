@@ -1,0 +1,17 @@
+获取统一注册限制
+GET /v3/registered_limits
+    query
+        service_id:服务id筛选
+        region_id:区域id筛选
+        resource_name:资源id筛选
+创建限制
+POST /v3/registered_limits
+    body
+        registered_limits:资源限制对象
+        service_id:服务id
+        region_id:区域id
+        resource_name:资源名称
+        default_limit:默认限制
+        description:描述
+更新限制
+PATCH /v3/registered_limits/{registered_limit_id}
