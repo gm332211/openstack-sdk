@@ -13,5 +13,50 @@ POST /v3/registered_limits
         resource_name:资源名称
         default_limit:默认限制
         description:描述
+获取单个限制
+GET /v3/registered_limits/{registered_limit_id}
+    path
+        registered_limit_id:限制id
 更新限制
 PATCH /v3/registered_limits/{registered_limit_id}
+    path
+        registered_limit_id:限制id
+    body
+        registered_limit:限制对象
+        service_id:服务id
+        region_id:区域id
+        resource_name:限制资源名称
+        default_limit:默认限制
+        description:限制描述
+删除限制
+DELETE /v3/registered_limits/{registered_limit_id}
+    path
+        registered_limit_id:限制id
+获取限制模型列表
+GET /v3/limits/model
+    body
+        model:模型对象
+        name:模型名称
+        description:模型描述
+获取项目限制列表
+GET /v3/limits
+    query
+        service_id:服务列表筛选
+        region_id:区域筛选
+        resource_name:资源名称筛选
+        project_id:项目id筛选
+创建限制
+POST /v3/limits
+    body
+        limits
+        project_id:项目id
+        service_id:服务id
+        region_id:区域id
+        resource_name:资源名称
+        resource_limit:资源限制
+        description:限制描述
+单个限制操作
+/v3/limits/{limit_id}
+    GET 获取限制
+    PATCH 更新限制(参数同创建限制)
+    DELETE 删除限制

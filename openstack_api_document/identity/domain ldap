@@ -1,0 +1,21 @@
+获取默认的domain
+GET /v3/domains/config/default
+    body
+        config
+        ldap
+        url
+        user_tree_dn
+        identity
+        driver
+Example
+    {"config": {
+        "identity": {
+            "driver": "ldap"
+        },
+        "ldap": {
+            "url": "ldap://localhost",
+            "user": "",
+            "suffix": "cn=example,cn=com",
+            ....
+        }
+    }}

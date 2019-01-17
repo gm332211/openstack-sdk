@@ -1,0 +1,15 @@
+获取政策
+GET /v3/policies
+    query
+        type:根据blob政策类型筛选
+创建政策
+POST /v3/policies
+    body
+        policy:政策对象
+        type:政策类型
+        blob:二进制的规则本身
+单个政策操作
+/v3/policies/{policy_id}
+    GET:查询
+    PATCH:更新参数同(创建)
+    DELETE:删除
