@@ -10,7 +10,7 @@ def http_request(host, port, url, method, headers=None, body=None, type_return=N
     :param dict body:Http request content
     :param str type_return: return type
     """
-    conn = httplib.HTTPConnection(host=openstack_setting.IPADDR, port=port)
+    conn = httplib.HTTPConnection(host=host, port=port)
     if not headers:
         headers = {
             "Content-type": "application/json",
