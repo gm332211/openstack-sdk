@@ -1,5 +1,8 @@
+#coding:utf-8
 from sdk import Openstack
+from test_config import setting as openstack_setting
 import time
+print('----自动迁移已开启----')
 op=Openstack.Openstack()
 op.get_token()
 while True:
@@ -16,39 +19,49 @@ while True:
         vcpus=host_data.get('vcpus',0)
         vcpus_used=host_data.get('vcpus_used',0)
         host['free_vcpus']=vcpus-vcpus_used
-        if vcpus_used >=vcpus:
+        host['vcpus'] = vcpus
+        try:
+            max_vcpus=vcpus*int(openstack_setting.threshold_vcpus)/100
+        except:
+            max_vcpus=vcpus
+        if vcpus_used >=int(max_vcpus):
             move_hosts.append(host)
         else:
             destination_hosts.append(host)
     flag=True
     while flag:
         if move_hosts:
-            print('Wait for the migration')
             if destination_hosts:
-                print('Is the migration')
+                print('等待迁移')
                 for index,move_host in enumerate(move_hosts):
                     try:
                         destination_host=destination_hosts[0]
                         destination_hosts.pop(0)
                     except:
-                        print('Insufficient migrated hosts')
+                        print('没有可迁移目标节点')
                         flag = False
-                    data=op.list_servers(host=move_host.get('name'))
+                    data=op.list_servers(host=move_host.get('name'),status='ACTIVE')
                     try:
                         server_id=data[0].get('id')
                         server=op.show_server(server_id)
                         flavor_data = op.show_flavor(id=server['flavor']['id'])
                         server_vcpus=flavor_data['vcpus']
                         host=move_host.get('name')
-                        if move_host.get('free_vcpus')>server_vcpus:
-                            op.migration_servers(host=host,server_id=server_id)
+                        try:
+                            if int(move_host.get('free_vcpus'))+int(server_vcpus)<int(move_host.get('vcpus'))*int(openstack_setting.threshold_vcpus)/100:
+                                print('正在迁移%s主机到%s节点'%(server_id,host))
+                                op.migration_servers(host=host,server_id=server_id)
+                                print('%s主机迁移成功' % server_id)
+                        except:
+                            print('%s主机迁移失败'%server_id)
                         move_hosts.pop(index)
                     except Exception as e:
                         print(e)
             else:
-                print('There is no target host to migrate')
+                print('没有可迁移目标节点')
                 flag = False
         else:
-            print('There are no hosts to migrate')
+            print('没有需要迁移的节点')
             flag=False
-    time.sleep(20)
+    wait_time=openstack_setting.wait_time
+    time.sleep(int(wait_time))
