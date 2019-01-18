@@ -1,0 +1,14 @@
+queued	镜像服务保留了一个图像的id,但并为上传文件
+saving	正在为镜像原始数据保存备份
+active	活跃的镜像,可以在镜像服务中使用
+killed	图片镜像上传错误
+deleted	保留了镜像信息,但镜像不可用
+pending_delete	处于删除状态,镜像不可恢复
+deactivated	镜像数据不可用
+uploading	更新状态,镜像不可用
+importing	导入镜像状态,镜像不可用
+
+public 公开镜像任何用户都能访问,任何用户的默认镜像
+community 任何用户可以使用镜像,但不会出现在任何用户的默认镜像中
+shared 共享镜像
+private 私有镜像

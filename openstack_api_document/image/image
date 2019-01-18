@@ -1,0 +1,82 @@
+获取镜像列表
+GET /v2/images
+    query
+        limit:根据页数请求限制个数
+        marker:最后一项的id,limit
+        name:名称筛选
+        owner:镜像拥有者筛选
+        protected:受保护镜像筛选
+        status:状态过滤
+        tag:标签过滤
+        visibility:通过状态过滤public, private, community, or shared.
+        os_hidden:隐藏镜像显示
+        member_status:成员状态筛选, accepted, pending, rejected, or all. Default is accepted.
+        size_max:图像最大大小筛选
+        size_min:图像最小大小筛选
+        created_at:图像创建时间筛选
+        updated_at:图像更新时间筛选
+        sort_dir:排序asc(升序)或desc(降序)默认降序
+        sort_key:对指定的属性排序,默认是根据created_at创建时间
+        sort:组合筛选(GET /v2/images?sort=name:asc,status:desc
+创建镜像
+POST /v2/images
+    body
+        container_format:镜像格式(ami、ari、aki、bare、ovf、ova或docker。
+        disk_format:磁盘格式(ami, ari, aki, vhd, vhdx, vmdk, raw, qcow2, vdi, ploop or iso.
+        id:镜像id
+        min_disk:最小磁盘空间
+        min_ram:最大磁盘空间
+        name:镜像名称
+        protected:是否受保护(默认false
+        tags:标签
+        visibility:对用户的可见度(public, private, shared, or community.
+    Example
+        {"container_format": "bare",
+        "disk_format": "raw",
+        "name": "Ubuntu",
+        "id": "b2173dd3-7ad6-4362-baa6-a68bce3565cb"}
+
+/v2/images/{image_id}
+    GET:查看
+    PATCH:更新
+        header
+            Content-Type:(application/openstack-images-v2.1-json-patch,application/openstack-images-v2.0-json-patch)
+        Example
+            [{
+                    "op": "replace",
+                    "path": "/name",
+                    "value": "Fedora 17"
+                },
+                {
+                    "op": "replace",
+                    "path": "/tags",
+                    "value": [
+                        "fedora",
+                        "beefy"
+                    ]
+             }]
+    DELETE:删除(您无法删除protected属性设置为 true（布尔值）的图像。)
+停用镜像
+POST /v2/images/{image_id}/actions/deactivate
+启用镜像
+POST /v2/images/{image_id}/actions/reactivate
+获取镜像成员列表
+GET /v2/images/{image_id}/members
+创建镜像成员
+POST /v2/images/{image_id}/members
+    body
+        member:需要共享成员的id
+    Example
+        {
+            "member": "8989447062e04a818baf9e073fd04fa7"
+        }
+/v2/images/{image_id}/members/{member_id}
+    GET:查看
+    PUT:更新
+        body
+            status:状态(pending， accepted，rejected)
+        Example
+            {
+                "status": "accepted"
+            }
+    DELETE:删除

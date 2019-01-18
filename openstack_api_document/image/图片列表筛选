@@ -1,0 +1,38 @@
+分页
+查询过滤器
+最简单的过滤
+    name名称过滤
+    tag标签过滤
+存在过滤
+    存在过滤字段
+        container_format
+        disk_format
+        ID
+        name
+        status
+    Eample
+        GET /v2/images?status=in:saving,queued 过滤列队和保存的镜像
+        GET /v2/images?id=in:3afb79c1-131a-4c38-a87c-bc4b801d14e6,2e011209-660f-44b5-baf2-2eb4babae53d 筛选出2个id的镜像
+        GET v2/images?name=in:"glass,%20darkly",share%20me 名称查找镜像逗号名称的用""分开
+大小过滤
+    size_min和size_max
+时间过滤
+    created_at
+    updated_at
+    lt：到期时间低于时间戳
+    lte：到期时间小于或等于时间戳
+    gt：到期时间高于时间戳
+    gte：到期时间大于或等于时间戳
+    eq：到期时间等于时间戳
+    neq：到期时间不等于时间戳
+    Example
+        GET v2/images?created_at=gt:2016-04-18T21:38:54Z
+
+排序
+    sort_key。按图像属性排序。对图像属性的自然排序方向进行排序。
+    sort_dir。按排序方向排序。
+    sort。按一组或多组属性和排序方向组合排序。如果省略集合中的排序方向，则默认为desc。
+    组合排序
+        GET /v2/images?sort_key=name&sort_dir=asc&sort_key=status&sort_dir=desc
+    指定查询排序
+        GET /v2/images?sort=name:asc,status:desc
