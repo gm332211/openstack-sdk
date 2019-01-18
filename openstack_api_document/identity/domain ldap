@@ -7,15 +7,98 @@ GET /v3/domains/config/default
         user_tree_dn
         identity
         driver
-Example
-    {"config": {
-        "identity": {
-            "driver": "ldap"
-        },
-        "ldap": {
-            "url": "ldap://localhost",
-            "user": "",
-            "suffix": "cn=example,cn=com",
-            ....
+    Example
+        {"config": {
+            "identity": {
+                "driver": "ldap"
+            },
+            "ldap": {
+                "url": "ldap://localhost",
+                "user": "",
+                "suffix": "cn=example,cn=com",
+                ....
+            }
+        }}
+特定组的默认配置
+GET /v3/domains/config/{group}/default
+    path
+        group:组id
+读取组中某个选项默认配置
+GET /v3/domains/config/{group}/{option}/default
+    ldap组有效的是url或者user_tree_dn,组有效的是driver
+    path
+        group:组id
+        option:选项id
+显示域组下面的选项配置
+GET /v3/domains/{domain_id}/config/{group}/{option}
+    path
+        domain:域id
+        group:组id
+        option:选项id
+更新域组下面的选项配置
+PATCH  /v3/domains/{domain_id}/config/{group}/{option}
+    path
+        domain:域id
+        group:组id
+        option:选项id
+    body
+        url:The LDAP URL.
+        driver:认证driver
+        user_tree_dn:ldap专有名称,(ou=Users,dc=root,dc=org.)
+    Example
+        {
+        "url": "http://myldap/my_other_root"
         }
-    }}
+删除域组下面的选项配置
+DELETE /v3/domains/{domain_id}/config/{group}/{option}
+域组的配置
+/v3/domains/{domain_id}/config/{group}
+    GET:查看
+    PATCH:更新
+        body
+            url:The LDAP URL.
+            driver:认证driver
+            user_tree_dn:ldap专有名称,(ou=Users,dc=root,dc=org.)
+            ldap:ldap类
+            config:配置类
+            identity:认证类
+        Example
+            {"config": {
+                    "ldap": {
+                        "url": "http://myldap/my_new_root",
+                        "user_tree_dn": "ou=Users,dc=my_new_root,dc=org"
+                    }
+                }}
+    DELETE:删除
+域配置
+/v3/domains/{domain_id}/config
+    GET:查看
+    PUT:创建
+        body
+            url:The LDAP URL.
+            driver:认证driver
+            user_tree_dn:ldap专有名称,(ou=Users,dc=root,dc=org.)
+            ldap:ldap类
+            config:配置类
+            identity:认证类
+        Example
+            {"config": {
+                    "identity": {
+                        "driver": "ldap"
+                    },
+                    "ldap": {
+                        "url": "ldap://myldap.com:389/",
+                        "user_tree_dn": "ou=Users,dc=my_new_root,dc=org"
+                    }
+                }}
+    PATCH:更新
+        body
+            PUT参数
+        Example
+            {"config": {
+                    "ldap": {
+                        "url": "http://myldap/my_new_root",
+                        "user_tree_dn": "ou=Users,dc=my_new_root,dc=org"
+                    }
+                }}
+    DELETE:删除
