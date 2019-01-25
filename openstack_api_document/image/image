@@ -80,3 +80,24 @@ POST /v2/images/{image_id}/members
                 "status": "accepted"
             }
     DELETE:删除
+添加镜像标签
+PUT /v2/images/{image_id}/tags/{tag}
+删除镜像标签
+DELETE /v2/images/{image_id}/tags/{tag}
+显示帮助文档
+GET /v2/schemas/images
+GET /v2/schemas/image
+GET /v2/schemas/members
+GET /v2/schemas/member
+上传镜像文件
+PUT /v2/images/{image_id}/file
+    header
+        Content-type:请求类型(application/octet-stream)
+        X-Image-Meta-Store:图像标识符
+    body
+        需要上传的图像
+下载镜像文件
+GET /v2/images/{image_id}/file
+    header
+        Rang:图像数据请求范围
+

@@ -16,11 +16,17 @@ def auth_token(func):
             self.get_token()
         data = func(self, *args, **kwargs)
         error_code = False
-        try:
-            error_code=data['error']['code']
-        except:
-            pass
-        if error_code:
+        if type(data).__name__=='instance':
+            try:
+                error_code = data.status
+            except:
+                pass
+        else:
+            try:
+                error_code=data['error']['code']
+            except:
+                pass
+        if int(error_code)>399:
             self.get_token()
             data = func(self, *args, **kwargs)
         return data

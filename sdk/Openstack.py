@@ -28,6 +28,7 @@ class Openstack(object):
         :param str method:Specify access method
         :param dict headers:openstack reqeust headers
         :param dict body:openstack reqeust data
+        :param dict filter:openstack filter parameter
         :param str type_return:return openstack type
         """
         service = openstack_setting.openstack_endpoint.get(server_type, None)
@@ -43,6 +44,8 @@ class Openstack(object):
                     "Content-type": "application/json",
                     "X-Auth-Token": self.token,
                 }
+            else:
+                headers['X-Auth-Token']=self.token
             data = HttpBase.http_request(host=host, port=port, url=url, method=method, headers=headers, body=body,
                                          type_return=type_return)
             return data
@@ -136,35 +139,64 @@ class Openstack(object):
         res = self.openstack_request(server_type='identity', server='groups', method='GET', filter=kwargs)
         return res
 
-    def list_hypervisors(self,*args,**kwargs):
+    def list_hypervisors(self, *args, **kwargs):
         res = self.openstack_request(server_type='compute', server='os-hypervisors', method='GET', filter=kwargs)
         if res.get('hypervisors'):
             return res.get('hypervisors')
-    def show_hypervisors(self,id,*args,**kwargs):
-        res = self.openstack_request(server_type='compute', server='os-hypervisors/%s'%id, method='GET', filter=kwargs)
+
+    def show_hypervisors(self, id, *args, **kwargs):
+        res = self.openstack_request(server_type='compute', server='os-hypervisors/%s' % id, method='GET',
+                                     filter=kwargs)
         if res.get('hypervisor'):
             return res.get('hypervisor')
-    def list_servers(self,*args,**kwargs):
+
+    def list_servers(self, *args, **kwargs):
         res = self.openstack_request(server_type='compute', server='servers', method='GET', filter=kwargs)
         if res.get('servers'):
             return res.get('servers')
-    def show_server(self,id,*args,**kwargs):
-        res = self.openstack_request(server_type='compute', server='servers/%s'%id, method='GET', filter=kwargs)
+
+    def show_server(self, id, *args, **kwargs):
+        res = self.openstack_request(server_type='compute', server='servers/%s' % id, method='GET', filter=kwargs)
         if res.get('server'):
             return res.get('server')
-    def list_flavor(self,*args,**kwargs):
+
+    def list_flavor(self, *args, **kwargs):
         res = self.openstack_request(server_type='compute', server='flavors', method='GET', filter=kwargs)
         if res.get('flavors'):
             return res.get('flavors')
-    def show_flavor(self,id,*args,**kwargs):
-        res = self.openstack_request(server_type='compute', server='flavors/%s'%id, method='GET', filter=kwargs)
+
+    def show_flavor(self, id, *args, **kwargs):
+        res = self.openstack_request(server_type='compute', server='flavors/%s' % id, method='GET', filter=kwargs)
         if res.get('flavor'):
             return res.get('flavor')
-    def migration_servers(self,host,server_id,*args,**kwargs):
-        data={
+
+    def migration_servers(self, host, server_id, *args, **kwargs):
+        data = {
             "migrate": {
                 "host": host
             }
         }
-        res = self.openstack_request(server_type='compute', server='servers/%s/action'%server_id, method='POST', body=data)
+        res = self.openstack_request(server_type='compute', server='servers/%s/action' % server_id, method='POST',
+                                     body=data)
         print(res)
+
+    def create_image(self,image_name,disk_format,container_format):
+        data = {"container_format": container_format,
+                "disk_format": disk_format,
+                "name": image_name}
+        data = self.openstack_request(server_type='image', server='images', method='POST',
+                                     body=data)
+        return data
+    def upload_image(self, image_id, image_file):
+        headers={
+            'Content-type':'application/octet-stream',
+        }
+        res = self.openstack_request(server_type='image', server='images/%s/file'% str(image_id), method='PUT',headers=headers,
+                                     body=image_file,type_return='obj')
+        return res
+    def test(self, *args, **kwargs):
+        res = self.openstack_request(server_type='identity', server='groups', method='GET', filter=kwargs,type_return='obj')
+        return res
+    def list_image(self):
+        res = self.openstack_request(server_type='image', server='images', method='GET')
+        return res

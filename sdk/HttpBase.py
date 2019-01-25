@@ -17,10 +17,15 @@ def http_request(host, port, url, method, headers=None, body=None, type_return=N
         }
     request_dict = {'url': url, 'method': method, 'headers': headers}
     if method == 'POST' or method == 'PUT' or method=='PATCH':
-        request_dict['body'] = json.dumps(body)
+        content_type=headers.get('Content-type',None)
+        if content_type=='application/json':
+            request_dict['body'] = json.dumps(body)
+        else:
+            request_dict['body'] = body
     print('%s %s'%(method,url))
     conn.request(**request_dict)
     res = conn.getresponse()
     if type_return == 'obj':
         return res
-    return json.loads(res.read())
+    data=json.loads(res.read())
+    return data
